@@ -5,8 +5,8 @@ import './css/styles.css';
 
 // This function stores our state.
 
-const storeState = () => {
-  let currentState = {};
+const storeState = (inputState) => {
+  let currentState = inputState;
   return (stateChangeFunction = state => state) => {
     const newState = stateChangeFunction(currentState);
     currentState = {...newState};
@@ -27,6 +27,12 @@ const changeState = (prop) => {
   }
 }
 
+const initialWizardValues = { hitpoints: 100, attack: 25, defense: 50, intelligence: 100 }
+const intialRougeValues = { hitpoints: 150, attack: 50, defense: 75, intelligence: 50 }
+
+const userCharacter = storeState(initialWizardValues)
+// const currentState = userCharacter()
+
 const changePlant = (prop) => {
   return (value) => {
     return (plant) => ({
@@ -38,10 +44,10 @@ const changePlant = (prop) => {
 
 // We create four functions using our function factory. We could easily create many more.
 
-const feed = changeState("soil")(1);
-const blueFood = changeState("soil")(5);
-const hydrate = changeState("water")(1);
-const superWater = changeState("water")(5);
+// const feed = changeState("soil")(1);
+// const blueFood = changeState("soil")(5);
+// const hydrate = changeState("water")(1);
+// const superWater = changeState("water")(5);
 
 const newPlant = changePlant("name")("roses");
 console.log(Object.values(newPlant));
