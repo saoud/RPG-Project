@@ -9,7 +9,7 @@ const storeState = (inputState) => {
   let currentState = inputState;
   return (stateChangeFunction = state => state) => {
     const newState = stateChangeFunction(currentState);
-    currentState = {...newState};
+    currentState = { ...newState };
     return newState;
   }
 }
@@ -22,68 +22,100 @@ const changeState = (prop) => {
   return (value) => {
     return (state) => ({
       ...state,
-      [prop] : (state[prop] || 0) + value
+      [prop]: (state[prop] || 0) + value
     })
   }
 }
 
-const initialWizardValues = { hitpoints: 100, attack: 25, defense: 50, intelligence: 100 }
-const intialRougeValues = { hitpoints: 150, attack: 50, defense: 75, intelligence: 50 }
+// const changePlant = (prop) => {
+//   return (value) => {
+//     return (plant) => ({
+//       ...plant,
+//       [prop]: value
+//     })
+//   }
+// }
 
-const userCharacter = storeState(initialWizardValues)
-// const currentState = userCharacter()
 
-const changePlant = (prop) => {
-  return (value) => {
-    return (plant) => ({
-      ...plant,
-      [prop] : value
-    })
+
+
+
+// console.log(userCharacter())
+
+
+///roll 1
+
+// const minimalDamage = takeDamage(Attacker.Attack - Victims.Defence)
+
+function rollDice(max) {
+  return 1 + Math.floor(Math.random() * max)
+}
+// const rollDice8 = () => rollDice(8)
+
+
+const rollTheDice = () => {
+  switch (rollDice(8)) {
+    case 1:
+      console.log("1")
+// const dragonAttack = changeState('hitpoints')(-10)
+
+// userCharacter(dragonAttack)
+      break;
+    case 2:
+      console.log("2")
+      break;
+    case 3:
+      console.log("3")
+      break;
+    case 4:
+      console.log("4")
+      break;
+    case 5:
+      console.log("5")
+      break;
+    case 6:
+      console.log("6")
+      break;
+    case 7:
+      console.log("7")
+      break;
+    case 8:
+      console.log("8")
+      break;
+    default:
+    // code block
   }
 }
 
-// We create four functions using our function factory. We could easily create many more.
+$(document).ready(function () {
 
-// const feed = changeState("soil")(1);
-// const blueFood = changeState("soil")(5);
-// const hydrate = changeState("water")(1);
-// const superWater = changeState("water")(5);
-
-const newPlant = changePlant("name")("roses");
-console.log(Object.values(newPlant));
-
-$(document).ready(function() {
   // const currentState = stateControl();
   // $('#plant-names').text(`Name: ${currentState.plant}`);
-// This function has side effects because we are using jQuery. Manipulating the DOM will always be a side effect. Note that we only use one of our functions to alter soil. You can easily add more.
+  // This function has side effects because we are using jQuery. Manipulating the DOM will always be a side effect. Note that we only use one of our functions to alter soil. You can easily add more.
+  // let userName = $('.character-dropdown').val();
+  // console.log(userName)
+  var changedText;
+  function listQ() {
+    changedText = this.value;
+  }
+  document.getElementsByClassName("character-dropdown").onchange = listQ;
 
+  let userObject;
 
-  $('#blue-food').click(function() {
-    const newState = stateControl(blueFood);
-    $('#soil-value').text(`Soil: ${newState.soil}`);
+  if (changedText === "Wizard") {
+    userObject = { hitpoints: 100, attack: 25, defense: 50, intelligence: 100 }
+  }
+  // const intialRougeValues = { hitpoints: 150, attack: 50, defense: 75, intelligence: 50 }
+
+  const userCharacter = storeState(userObject)
+  // const currentState = userCharacter()
+
+  $('#rollDice').click(function () {
+    rollTheDice();
+    console.log(changedText)
+    console.log(userCharacter())
+    console.log(userObject)
   });
 
-  $('#feed').click(function() {
-    const newState = stateControl(feed);
-    $('#soil-value').text(`Soil: ${newState.soil}`);
-  });
 
-  $('#hydrate').click(function() {
-    const newState = stateControl(hydrate);
-    $('#water-value').text(`Water: ${newState.water}`);
-  });
-
-  $('#super-hydrate').click(function() {
-    const newState = stateControl(superWater)
-    $('#water-value').text(`Water: ${newState.water}`);
-  });
-
-// This function doesn't actually do anything useful in this application - it just demonstrates how we can "look" at the current state (which the DOM is holding anyway). However, students often do need the ability to see the current state without changing it so it's included here for reference.
-
-  $('#show-state').click(function() {
-    // We just need to call stateControl() without arguments to see our current state.
-    const currentState = stateControl();
-    $('#soil-value').text(`Soil: ${currentState.soil}`);
-    // $('#water-value').text(`Water: ${currentState.water}`);
-  });
 });
